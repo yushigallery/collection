@@ -79,29 +79,31 @@
 <body>
   <header>
     <h1>YUSHI'S WORLD</h1>
-    <img src="/banner.jpg" alt="YUSHI Banner">
+    <img src="banner.jpg" alt="YUSHI Banner">
   </header>
   <div class="search-container">
     <input type="text" placeholder="请输入关键词..." oninput="searchLinks(this.value)">
   </div>
   <div class="icon-links">
     <a href="https://weibo.com/u/7895044498" target="_blank">
-      <img src="/weibo.jpg" alt="微博"><br>微博
+      <img src="weibo.jpg" alt="微博"><br>微博
     </a>
     <a href="https://v.douyin.com/h7fixa56lIk/" target="_blank">
-      <img src="/douyin.jpg" alt="抖音"><br>抖音
+      <img src="douyin.jpg" alt="抖音"><br>抖音
     </a>
     <a href="https://space.bilibili.com/3546586890111682" target="_blank">
-      <img src="/bili.jpg" alt="B站"><br>B站
+      <img src="bili.jpg" alt="B站"><br>B站
     </a>
     <a href="https://www.xiaohongshu.com/user/profile/63b4696e0000000027037de5?..." target="_blank">
-      <img src="/xiaohongshu.jpg" alt="小红书"><br>小红书
+      <img src="xiaohongshu.jpg" alt="小红书"><br>小红书
     </a>
   </div>
   <details>
     <summary>YUSHI 简介（点击展开）</summary>
     <div class="about-u">
-      <p>姓名：YUSHI（得能勇志；유우시；ユウシ）<br>生日：2004.04.05<br>星座：白羊座<br>国籍：日本<br>出生地：东京<br>昵称：ushi<br>练习时长：6年+<br>性格：可爱的性格<br>座右铭：因果报应→幸福地生活<br>兴趣：足球、任天堂、我的世界<br>最珍惜的东西：任天堂Switch<br>梦想成为艺人的契机：看到EXO前辈后开始学习舞蹈<br>榜样：EXO的KAI前辈<br>MBTI：ISFJ→ESFJ→ISFJ<br>最喜欢的颜色：蓝色和白色<br>最爱的词语：爱<br>最爱的歌曲：Smooth Criminal<br>最想拥有的超能力：飞行<br>最爱的食物：拉面，贡茶<br>官方emoji：⭐<br>官方定位：主舞、领唱<br>动物塑：小猫<br>习惯：睡前吃夜宵<br>生存的意义：跳舞<br>宠物：toiro（贵宾犬）、yuru（吉娃娃）<br>如果没做音乐，会做足球运动员。生活中必须实现的梦想：世界巡演。<br>性格关键词：安静、冷静、非常害羞但热心善良耐心</p>
+      <p>姓名：YUSHI（得能勇志；유우시；ユウシ）<br>
+      生日：2004.04.05<br>...（中略）...<br>
+      性格关键词：安静、冷静、非常害羞但热心善良耐心</p>
     </div>
   </details>
   <div class="link-list">
@@ -111,8 +113,14 @@
     <ul id="searchResults"></ul>
   </div>
 
-  <script src="/grouped_data.js"></script>
+  <script src="grouped_data.js"></script>
   <script>
+    window.addEventListener('load', () => {
+      if (typeof groupedData !== 'undefined') {
+        renderGrouped(groupedData);
+      }
+    });
+
     function renderGrouped(data) {
       const container = document.getElementById('groupedView');
       container.innerHTML = '';
@@ -135,12 +143,14 @@
     function searchLinks(keyword) {
       keyword = keyword.toLowerCase();
       const results = [];
-      for (const folder in groupedData) {
-        groupedData[folder].forEach(entry => {
-          if (entry.title.toLowerCase().includes(keyword)) {
-            results.push(entry);
-          }
-        });
+      if (typeof groupedData !== 'undefined') {
+        for (const folder in groupedData) {
+          groupedData[folder].forEach(entry => {
+            if (entry.title.toLowerCase().includes(keyword)) {
+              results.push(entry);
+            }
+          });
+        }
       }
       renderSearchResults(results);
     }
@@ -154,8 +164,6 @@
         container.appendChild(li);
       });
     }
-
-    renderGrouped(groupedData);
   </script>
 </body>
 </html>
