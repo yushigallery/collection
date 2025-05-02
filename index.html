@@ -113,7 +113,13 @@
     <ul id="searchResults"></ul>
   </div>
 
-  <script src="grouped_data.js"></script>
+<script>
+  const groupedData = {
+    "demo": [
+      { title: "测试条目", url: "https://example.com" }
+    ]
+  };
+</script>
   <script>
     window.addEventListener('load', () => {
       if (typeof groupedData !== 'undefined') {
