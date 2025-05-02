@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YUSHI'S WORLD</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: #fff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      background: #fff;
+      padding: 1em 0;
+      border-bottom: 1px solid #eee;
+    }
+    header img {
+      max-width: 100%;
+      height: auto;
+    }
+    .search-container {
+      text-align: center;
+      padding: 1em;
+    }
+    input[type="text"] {
+      width: 80%;
+      max-width: 400px;
+      padding: 0.5em;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .icon-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5em;
+      margin-top: 1em;
+      flex-wrap: wrap;
+    }
+    .icon-links a {
+      text-align: center;
+      text-decoration: none;
+      color: #333;
+    }
+    .icon-links img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #eee;
+    }
+    details {
+      padding: 1em;
+      border-top: 1px solid #eee;
+    }
+    .about-u {
+      padding: 1em;
+    }
+    .link-list {
+      padding: 1em;
+    }
+    .link-list ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .link-list li {
+      margin: 0.5em 0;
+    }
+    .link-list a {
+      text-decoration: none;
+      color: #0070f3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>YUSHI'S WORLD</h1>
+    <img src="/banner.jpg" alt="YUSHI Banner">
+  </header>
+  <div class="search-container">
+    <input type="text" placeholder="请输入关键词..." oninput="searchLinks(this.value)">
+  </div>
+  <div class="icon-links">
+    <a href="https://weibo.com/u/7895044498" target="_blank">
+      <img src="/weibo.jpg" alt="微博"><br>微博
+    </a>
+    <a href="https://v.douyin.com/h7fixa56lIk/" target="_blank">
+      <img src="/douyin.jpg" alt="抖音"><br>抖音
+    </a>
+    <a href="https://space.bilibili.com/3546586890111682" target="_blank">
+      <img src="/bili.jpg" alt="B站"><br>B站
+    </a>
+    <a href="https://www.xiaohongshu.com/user/profile/63b4696e0000000027037de5?..." target="_blank">
+      <img src="/xiaohongshu.jpg" alt="小红书"><br>小红书
+    </a>
+  </div>
+  <details>
+    <summary>YUSHI 简介（点击展开）</summary>
+    <div class="about-u">
+      <p>姓名：YUSHI（得能勇志；유우시；ユウシ）<br>生日：2004.04.05<br>星座：白羊座<br>国籍：日本<br>出生地：东京<br>昵称：ushi<br>练习时长：6年+<br>性格：可爱的性格<br>座右铭：因果报应→幸福地生活<br>兴趣：足球、任天堂、我的世界<br>最珍惜的东西：任天堂Switch<br>梦想成为艺人的契机：看到EXO前辈后开始学习舞蹈<br>榜样：EXO的KAI前辈<br>MBTI：ISFJ→ESFJ→ISFJ<br>最喜欢的颜色：蓝色和白色<br>最爱的词语：爱<br>最爱的歌曲：Smooth Criminal<br>最想拥有的超能力：飞行<br>最爱的食物：拉面，贡茶<br>官方emoji：⭐<br>官方定位：主舞、领唱<br>动物塑：小猫<br>习惯：睡前吃夜宵<br>生存的意义：跳舞<br>宠物：toiro（贵宾犬）、yuru（吉娃娃）<br>如果没做音乐，会做足球运动员。生活中必须实现的梦想：世界巡演。<br>性格关键词：安静、冷静、非常害羞但热心善良耐心</p>
+    </div>
+  </details>
+  <div class="link-list">
+    <h2>📁 分类浏览（可折叠）</h2>
+    <div id="groupedView"></div>
+    <h2>🔍 搜索结果</h2>
+    <ul id="searchResults"></ul>
+  </div>
+
+  <script src="/grouped_data.js"></script>
+  <script>
+    function renderGrouped(data) {
+      const container = document.getElementById('groupedView');
+      container.innerHTML = '';
+      for (const folder in data) {
+        const details = document.createElement('details');
+        const summary = document.createElement('summary');
+        summary.textContent = folder;
+        details.appendChild(summary);
+        const ul = document.createElement('ul');
+        data[folder].forEach(entry => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${entry.url}" target="_blank">${entry.title}</a>`;
+          ul.appendChild(li);
+        });
+        details.appendChild(ul);
+        container.appendChild(details);
+      }
+    }
+
+    function searchLinks(keyword) {
+      keyword = keyword.toLowerCase();
+      const results = [];
+      for (const folder in groupedData) {
+        groupedData[folder].forEach(entry => {
+          if (entry.title.toLowerCase().includes(keyword)) {
+            results.push(entry);
+          }
+        });
+      }
+      renderSearchResults(results);
+    }
+
+    function renderSearchResults(list) {
+      const container = document.getElementById('searchResults');
+      container.innerHTML = '';
+      list.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${item.url}" target="_blank">${item.title}</a>`;
+        container.appendChild(li);
+      });
+    }
+
+    renderGrouped(groupedData);
+  </script>
+</body>
+</html>
